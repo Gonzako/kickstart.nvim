@@ -3,5 +3,5 @@
 --
 -- See the kickstart.nvim README for more information
 return {
-  { 'Wayaaron/nvim-training', opts = {} },
+  { 'Weyaaron/nvim-training', opts = {} },
 }
