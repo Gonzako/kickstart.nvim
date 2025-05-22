@@ -123,9 +123,14 @@ return {
         },
       },
     }
-    local debugpy = mason - registry.get_package 'debugpy'
-
-    dap_python.setup(debugpy.location .. 'venvScriptspython')
+    local is_windows = vim.fn.has 'win64' == 1 or vim.fn.has 'win32' == 1 or vim.fn.has 'win16' == 1
+    local python_path = ''
+    if is_windows then
+      python_path = table.concat({ vim.fn.stdpath 'data', 'mason', 'packages', 'debugpy', 'venv', 'Scripts', 'python' }, '/'):gsub('//+', '/')
+    else
+      python_path = table.concat({ vim.fn.stdpath 'data', 'mason', 'packages', 'debugpy', 'venv', 'bin', 'python' }, '/'):gsub('//+', '/')
+    end
+    dap_python.setup(python_path)
     -- Change breakpoint icons
     -- vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
     -- vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
