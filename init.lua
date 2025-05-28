@@ -684,6 +684,18 @@ require('lazy').setup({
         },
         ruff = {},
 
+        intelephense = {
+          filetypes = { 'php', 'blade', 'php_only' },
+          settings = {
+            intelephense = {
+              filetypes = { 'php', 'blade', 'php_only' },
+              files = {
+                associations = { '*.php', '*.blade.php' }, -- Associating .blade.php files as well
+                maxSize = 5000000,
+              },
+            },
+          },
+        },
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -727,6 +739,9 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua',
         'ruff',
+        'intelephense',
+        'pint',
+        'php-cs-fixer',
         -- Used to format Lua code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -763,7 +778,7 @@ require('lazy').setup({
       },
     },
     opts = {
-      ensure_installed = { 'prettier/prettier', 'ruff' },
+      ensure_installed = { 'php-cs-fixer', 'prettier/prettier', 'ruff', 'pint' },
       notify_on_error = false,
       format_on_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
@@ -785,6 +800,8 @@ require('lazy').setup({
         python = { 'ruff_fix', 'ruff_format', 'ruff_organize_imports' },
 
         json = { 'prettier' },
+
+        php = { 'pint', 'php_cs_fixer' },
 
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
@@ -963,7 +980,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'python', 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'python', 'bash', 'c', 'diff', 'html', 'blade', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'php', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
