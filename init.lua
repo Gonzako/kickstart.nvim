@@ -250,6 +250,7 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   { 'NMAC427/guess-indent.nvim', opts = {} }, -- Detect tabstop and shiftwidth automatically
 
+  { 'windwp/nvim-ts-autotag', opts = {} },
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -684,10 +685,13 @@ require('lazy').setup({
         },
         ruff = {},
 
-        intelephense = {
+        phpactor = {
+          capabilities = {
+            snippets = true,
+          },
           filetypes = { 'php', 'blade', 'php_only' },
           settings = {
-            intelephense = {
+            phpactor = {
               filetypes = { 'php', 'blade', 'php_only' },
               files = {
                 associations = { '*.php', '*.blade.php' }, -- Associating .blade.php files as well
@@ -739,9 +743,12 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua',
         'ruff',
-        'intelephense',
-        'pint',
+        'phpactor',
+        'phpcs',
         'php-cs-fixer',
+        'blade-formatter',
+        'duster',
+        'prettier',
         -- Used to format Lua code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -778,7 +785,7 @@ require('lazy').setup({
       },
     },
     opts = {
-      ensure_installed = { 'php-cs-fixer', 'prettier/prettier', 'ruff', 'pint' },
+      ensure_installed = { 'php-cs-fixer', 'prettier/prettier', 'ruff', 'phpcs' },
       notify_on_error = false,
       format_on_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
@@ -789,7 +796,7 @@ require('lazy').setup({
           return nil
         else
           return {
-            timeout_ms = 500,
+            timeout_ms = 800,
             lsp_format = 'fallback',
           }
         end
@@ -801,8 +808,9 @@ require('lazy').setup({
 
         json = { 'prettier' },
 
-        php = { 'pint', 'php_cs_fixer' },
+        php = { 'phpcs', 'php_cs_fixer' },
 
+        blade = { 'blade-formatter' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
